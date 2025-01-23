@@ -115,7 +115,7 @@ const Search = () => {
               Searching...
               <br />
               <span className="text-sm text-gray-500">
-                (Responses may take time to load due to Render instance inactivity. Learn more
+                (Initial Response may take upto 50 seconds to load due to free-tier Render instance inactivity. Learn more
                 <a
                   href="https://render.com/docs/free#spinning-down-on-idle"
                   target="_blank"
