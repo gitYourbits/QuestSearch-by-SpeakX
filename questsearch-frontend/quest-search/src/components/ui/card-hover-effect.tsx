@@ -19,7 +19,7 @@ const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 gap-6", // Limited to 2 columns
+        "grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 py-10 gap-6", // Limited to 2 columns
         className
       )}
     >
