@@ -66,7 +66,12 @@ Why MongoDB Atlas Full-Text Search?
     PORT=3000        # Optional: set a custom port for Express server
     ```
 
-4. Run the backend locally:
+4. Upload data to mongodb (JSON data file link: https://drive.google.com/file/d/1CZ0GX4opA4grkLunRuWwH7bwlmfcSeUQ/view):
+    ```bash
+    node loadData.js
+    ```
+
+5. Run the backend locally:
     ```bash
     node server.js
     ```
