@@ -1,14 +1,14 @@
 # QuestSearch
 
-**QuestSearch** is a powerful search engine designed to provide fast, accurate, and scalable search capabilities for a large collection of questions. It leverages MongoDB Atlas Full-Text Search for efficient querying, Express.js for backend API handling, and Vite + React for a seamless frontend experience. QuestSearch is ideal for educational platforms, forums, or any content-rich system that requires efficient searching through questions and topics.
+**QuestSearch** is a powerful search functionality designed to provide fast, accurate, and scalable search capabilities for a large collection of questions. It leverages MongoDB Atlas Full-Text Search for efficient querying and gRPC as the service that serves the search functionality. Express.js acts as a proxy between the gRPC service and the frontend due to the need for managing cross-origin requests, API routing, and ensuring a smooth communication flow between the frontend and backend. The frontend is built using Vite + React for a seamless user experience.
 
 ## Features
 
 - **Full-Text Search**: Utilize MongoDB Atlas Full-Text Search to search through question titles with high performance and flexibility.
 - **Pagination**: Results are paginated to ensure smooth user experience and faster query responses.
-- **Type-based Filtering**: Ability to filter questions based on type (e.g., Multiple Choice, True/False).
+- **Type-based Filtering**: Ability to filter questions based on type (e.g., Multiple Choice, Anagram, Read Along, etc).
 - **Responsive Design**: The frontend is built to be fully responsive, ensuring accessibility on both mobile and desktop devices.
-- **Dynamic API**: Both RESTful and gRPC-based APIs for handling search requests.
+- **Dynamic API**: Utilizes a high-performance gRPC-based API for handling search requests, with Express.js serving as a proxy to facilitate seamless communication between the gRPC service and the frontend, ensuring optimized data routing and handling cross-origin requests.
 - **Scalability**: Designed to handle large datasets and optimize search performance with MongoDB's search index.
 
 ## Technologies Used
@@ -24,7 +24,8 @@
 ### Frontend:
 - **React**: JavaScript library for building user interfaces, focusing on component-based architecture.
 - **Vite**: Next-generation build tool optimized for fast development and production builds.
-- **CSS (with custom styling)**: Used to create a fully responsive UI.
+- **Tailwind CSS (with custom styling)**: Used to create a fully responsive UI.
+- **Shadcn/ui (for UI components)**: An open-source project that provides beautifully designed, reusable components for building user interfaces. These components are built with Tailwind CSS
 
 ### Search Algorithm:
 - **MongoDB Atlas Full-Text Search**: QuestSearch uses MongoDB's full-text search capabilities to index question titles. Full-Text Search provides powerful features such as:
@@ -84,7 +85,7 @@ Why MongoDB Atlas Full-Text Search?
 
 3. Create a `.env` file in the root of the frontend directory:
     ```env
-    VITE_API_BASE_URL=https://your-render-backend-url.onrender.com
+    VITE_API_BASE_URL=https://your-backend-url.onrender.com
     ```
 
 4. Run the frontend locally:
@@ -121,7 +122,6 @@ For Frontend (**Vercel**):
           "id": "question_id",
           "title": "Question title",
           "type": "multiple-choice",
-          // Other question metadata
         }
       ]
     }
@@ -144,7 +144,8 @@ For Frontend (**Vercel**):
         {
           "id": "question_id",
           "title": "Question title",
-          "type": "multiple-choice"
+          "type": "multiple-choice",
+          // Other question metadata
         }
       ]
     }
@@ -152,7 +153,7 @@ For Frontend (**Vercel**):
 
 ## Contributing
 
-We welcome contributions to make QuestSearch even better! To contribute:
+To contribute:
 1. Fork the repository
 2. Create a feature branch
 3. Commit your changes
