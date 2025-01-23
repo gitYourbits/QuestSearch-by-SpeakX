@@ -48,7 +48,8 @@ const server = new grpc.Server();
 server.addService(questionProto.QuestSearch.service, {
   searchQuestions: async (call, callback) => {
     try {
-      const { query, page = 1, pageSize = 10 } = call.request;
+      const { query, page = 1, pageSize = 10, type } = call.request;
+      // console.log(call.request);
 
       // Calculate the skip value for pagination
       const skip = (page - 1) * pageSize;
@@ -56,20 +57,27 @@ server.addService(questionProto.QuestSearch.service, {
       const database = clientDB.db();
       const collection = database.collection('questions');
 
-      // MongoDB aggregation with $skip and $limit for pagination
+      // Build the MongoDB aggregation pipeline
       const agg = [
         {
           $search: {
             index: "standard",  // Atlas Search index
             text: {
               query,
-              path: 'title',  // Search in 'title' field
+              path: 'title',  // Search in the 'title' field
             },
           },
         },
         { $skip: skip },  // Skip based on current page
         { $limit: pageSize },  // Limit the number of results per page
       ];
+
+      // If a filter by type is provided, add to the pipeline
+      if (type) {
+        agg.push({
+          $match: { type: type },
+        });
+      }
 
       const results = await collection.aggregate(agg).toArray();
 
@@ -101,33 +109,26 @@ app.listen(EXPRESS_PORT, () => {
 
 // Express API endpoint to search for questions with pagination
 app.post('/api/search', async (req, res) => {
-  console.log("API search endpoint hit");  // Log when the endpoint is hit
-  const { query, page = 1, pageSize = 10 } = req.body;
+  const { query, page = 1, pageSize = 10, type } = req.body;  // Include 'type' in request body
 
   if (!query) {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
-  console.log("Received query:", query); // Log the query received from frontend
-  console.log("Page:", page);  // Log the page
-  console.log("Page Size:", pageSize);  // Log the page size
-  
   try {
     // Calculate skip for pagination
     const skip = (page - 1) * pageSize;
-    console.log("Skip:", skip);  // Log the skip value for debugging
-
     const database = clientDB.db();
     const collection = database.collection('questions');
 
-    // Ensure the query object is in the correct structure
+    // Base aggregation pipeline
     const agg = [
       {
         $search: {
           index: "standard",  // Atlas Search index
           text: {
             query,
-            path: 'title',  // Search in 'title' field (ensure this field exists in your documents)
+            path: 'title',  // Search in 'title' field
           },
         },
       },
@@ -135,9 +136,17 @@ app.post('/api/search', async (req, res) => {
       { $limit: pageSize },  // Limit the number of results per page
     ];
 
-    // Log the aggregation pipeline to debug the query
-    console.log('Aggregation pipeline:', JSON.stringify(agg, null, 2));
+    // If a 'type' filter is provided, add it to the aggregation pipeline
+    if (type) {
+      agg.push({
+        $match: { type: type },  // Filter by 'type' field
+      });
+    }
 
+    // Loggin the aggregation pipeline for debugging
+    // console.log('Aggregation pipeline:', JSON.stringify(agg, null, 2));
+
+    // Execute the aggregation
     const results = await collection.aggregate(agg).toArray();
 
     // Send back results to the frontend
@@ -147,5 +156,3 @@ app.post('/api/search', async (req, res) => {
     res.status(500).json({ error: 'Error fetching search results' });
   }
 });
-
-

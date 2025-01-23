@@ -6,6 +6,7 @@ service QuestSearch {
 
 message SearchRequest {
   string query = 1;  // Search query focusing on the title
+  string type = 2;
 }
 
 message SearchResponse {
