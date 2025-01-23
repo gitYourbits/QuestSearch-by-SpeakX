@@ -129,7 +129,7 @@ const Search = () => {
                         case 'ANAGRAM':
                           return {
                             title: item.title,
-                            description: `Rearrange the letters: ${item.blocks ? item.blocks.filter((block) => block.showInOption).map((block) => block.text).join(' ') : 'No blocks available'}`,
+                            description: `Arrange: ${item.blocks ? item.blocks.filter((block) => block.showInOption).map((block) => block.text).join(' ') : 'No blocks available'}`,
                             link: '#',
                           };
                         case 'MCQ':
