@@ -27,7 +27,8 @@ const client = new questionProto.QuestSearch('0.0.0.0:50051', grpc.credentials.c
 // Express Setup
 const app = express();
 app.use(cors({
-  origin: ['http://0.0.0.0:0', 'http://localhost:3000'],
+  origin: ['http://0.0.0.0:0', 'http://localhost:3000', "https://questsearch-speakx.vercel.app"],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
 }));
 app.use(express.json());
 

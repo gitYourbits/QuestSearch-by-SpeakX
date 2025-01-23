@@ -13,7 +13,9 @@ const Search = () => {
   const [error, setError] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
-  const [filter, setFilter] = useState(''); // Filter for question type
+  const [filter, setFilter] = useState('');
+
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   const handleSearchChange = (event) => {
     setQuery(event.target.value);
@@ -36,7 +38,7 @@ const Search = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:3000/api/search', {
+      const response = await axios.post(`${BASE_URL}/api/search`, {
         query,
         page: currentPage,
         pageSize,
