@@ -111,7 +111,22 @@ const Search = () => {
 
         <div className="w-full max-w-5xl mt-6">
           {isSearching ? (
-            <p className="text-center text-lg">Searching...</p>
+            <p className="text-center text-lg">
+              Searching...
+              <br />
+              <span className="text-sm text-gray-500">
+                (Responses may take time to load due to Render instance inactivity. Learn more
+                <a
+                  href="https://render.com/docs/free#spinning-down-on-idle"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-500 underline"
+                >
+                  here
+                </a>
+                .)
+              </span>
+            </p>
           ) : (
             <>
               {error && <p className="text-center text-red-500">{error}</p>}
