@@ -35,7 +35,7 @@ function handleOids(obj) {
     }
 }
 
-// Insert the questions into MongoDB Atlas using bulk write and track outliers
+// Insert the questions into MongoDB Atlas using bulk write
 async function insertQuestions() {
     const client = await connectToMongoDB();
     if (!client) {
@@ -52,8 +52,8 @@ async function insertQuestions() {
             return question;
         });
 
-        // Bulk insert in batches
-        const BATCH_SIZE = 5000;  // Adjust batch size based on your server's capability
+        // Bulk insert in batches of 5k
+        const BATCH_SIZE = 5000;
         let batch = [];
         let failedInserts = [];
 
@@ -92,7 +92,7 @@ async function insertQuestions() {
     }
 }
 
-// Retry failed inserts
+// Retrying failed inserts
 async function retryFailedInserts(failedDocs) {
     const client = await connectToMongoDB();
     const db = client.db(dbName);
@@ -112,5 +112,4 @@ async function retryFailedInserts(failedDocs) {
     }
 }
 
-// Run the insertion process
 insertQuestions();

@@ -19,7 +19,7 @@ const HoverEffect = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 py-10 gap-6", // Limited to 2 columns
+        "grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10 gap-6", // Limited to 2 columns
         className
       )}
     >
@@ -73,7 +73,7 @@ const Card = ({
   return (
     <div
       className={cn(
-        "rounded-2xl h-full w-full p-4 overflow-hidden bg-black border border-white/[0.2] dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
+        "rounded-2xl sm:p-2 h-full w-full p-4 overflow-hidden bg-black border border-white/[0.2] dark:border-white/[0.2] group-hover:border-slate-700 relative z-20",
         className
       )}
     >

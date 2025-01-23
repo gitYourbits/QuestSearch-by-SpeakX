@@ -3,8 +3,8 @@ import axios from 'axios';
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { TracingBeam } from "@/components/ui/tracing-beam";
 import CardHoverEffect from "@/components/ui/card-hover-effect";
-import NProgress from 'nprogress'; // Import NProgress
-import 'nprogress/nprogress.css'; // Import NProgress styles
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
 const Search = () => {
   const [query, setQuery] = useState('');
@@ -42,11 +42,11 @@ const Search = () => {
         query,
         page: currentPage,
         pageSize,
-        type: filter, // Send filter as part of the request
+        type: filter,
       });
 
       const fetchedResults = response.data.questions || [];
-      setResults(fetchedResults); // Set fetched results
+      setResults(fetchedResults);
     } catch (error) {
       console.error('Error fetching data:', error);
       setError('Error fetching search results. Please try again later.');
@@ -84,13 +84,13 @@ const Search = () => {
               type="text"
               value={query}
               onChange={handleSearchChange}
-              className="w-96 p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full sm:w-96 w-96 p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
               placeholder="Search for questions..."
             />
             <select
               value={filter}
               onChange={handleFilterChange}
-              className="p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="p-2 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-red-500 sm:w-full"
             >
               <option value="">All</option>
               <option value="CONTENT_ONLY">Content Only</option>
@@ -102,7 +102,7 @@ const Search = () => {
             <button
               onClick={handleSearch}
               disabled={isSearching || !query.trim()}
-              className={`p-2 rounded-md bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 ${isSearching || !query.trim() ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`p-2 rounded-md bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 ${isSearching || !query.trim() ? 'opacity-50 cursor-not-allowed' : ''} sm:w-full`}
             >
               {isSearching ? 'Searching...' : 'Search'}
             </button>
@@ -186,14 +186,14 @@ const Search = () => {
               <button
                 onClick={handlePrevPage}
                 disabled={currentPage === 1}
-                className={`p-3 mx-3 rounded-md bg-gray-700 hover:bg-gray-800 text-white ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`p-3 mx-3 rounded-md bg-gray-700 hover:bg-gray-800 text-white ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''} sm:w-full`}
               >
                 Previous
               </button>
               <button
                 onClick={handleNextPage}
                 disabled={results.length < pageSize}
-                className={`py-3 px-4 mx-3 rounded-md bg-gray-700 hover:bg-gray-800 text-white ${results.length < pageSize ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`py-3 px-4 mx-3 rounded-md bg-gray-700 hover:bg-gray-800 text-white ${results.length < pageSize ? 'opacity-50 cursor-not-allowed' : ''} sm:w-full`}
               >
                 Next
               </button>

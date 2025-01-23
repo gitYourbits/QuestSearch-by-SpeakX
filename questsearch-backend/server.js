@@ -1,7 +1,7 @@
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const express = require('express');
-const { MongoClient } = require('mongodb'); // Using native MongoDB driver
+const { MongoClient } = require('mongodb');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -32,7 +32,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// MongoDB Atlas Setup (using native driver)
+// MongoDB Atlas Setup (native driver)
 const mongoURI = process.env.MONGO_URI;
 const clientDB = new MongoClient(mongoURI);
 
@@ -61,16 +61,16 @@ server.addService(questionProto.QuestSearch.service, {
       const agg = [
         {
           $search: {
-            index: "standard",  // Atlas Search index
+            index: "standard",
             text: {
               query,
-              path: 'title',  // Search in the 'title' field
+              path: 'title',
             },
           },
         },
-        ...(type ? [{ $match: { type: type } }] : []),  // Add type match dynamically
-        { $skip: skip },  // Skip based on current page
-        { $limit: pageSize },  // Limit the number of results per page
+        ...(type ? [{ $match: { type: type } }] : []),
+        { $skip: skip },
+        { $limit: pageSize },
       ];
 
       const results = await collection.aggregate(agg).toArray();
@@ -91,7 +91,6 @@ server.addService(questionProto.QuestSearch.service, {
 const GRPC_PORT = process.env.GRPC_PORT || 50051;
 server.bindAsync('0.0.0.0:' + GRPC_PORT, grpc.ServerCredentials.createInsecure(), () => {
   console.log(`gRPC server running on port ${GRPC_PORT}`);
-  server.start();
 });
 
 const EXPRESS_PORT = process.env.PORT || 3000;
@@ -101,14 +100,13 @@ app.listen(EXPRESS_PORT, () => {
 
 // Express API endpoint to search for questions with pagination
 app.post('/api/search', async (req, res) => {
-  const { query, page = 1, pageSize = 10, type } = req.body;  // Include 'type' in request body
+  const { query, page = 1, pageSize = 10, type } = req.body;
 
   if (!query) {
     return res.status(400).json({ error: 'Query parameter is required' });
   }
 
   try {
-    // Calculate skip for pagination
     const skip = (page - 1) * pageSize;
     const database = clientDB.db();
     const collection = database.collection('questions');
@@ -117,21 +115,20 @@ app.post('/api/search', async (req, res) => {
     const agg = [
       {
         $search: {
-          index: "standard",  // Atlas Search index
+          index: "standard",
           text: {
             query,
-            path: 'title',  // Search in 'title' field
+            path: 'title',
           },
         },
       },
-      ...(type ? [{ $match: { type: type } }] : []),  // Add type match dynamically
-      { $skip: skip },  // Skip based on current page
-      { $limit: pageSize },  // Limit the number of results per page
+      ...(type ? [{ $match: { type: type } }] : []),
+      { $skip: skip },
+      { $limit: pageSize },
     ];
 
     const results = await collection.aggregate(agg).toArray();
 
-    // Send back results to the frontend
     res.json({ questions: results });
   } catch (error) {
     console.error('Error during search:', error.message);
