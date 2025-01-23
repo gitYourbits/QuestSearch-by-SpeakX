@@ -22,12 +22,12 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 
 const questionProto = grpc.loadPackageDefinition(packageDefinition);
-const client = new questionProto.QuestSearch('localhost:50051', grpc.credentials.createInsecure());
+const client = new questionProto.QuestSearch('0.0.0.0:50051', grpc.credentials.createInsecure());
 
 // Express Setup
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173'],  // Allow both origins
+  origin: ['http://0.0.0.0:0', 'http://localhost:3000'],
 }));
 app.use(express.json());
 
@@ -49,7 +49,6 @@ server.addService(questionProto.QuestSearch.service, {
   searchQuestions: async (call, callback) => {
     try {
       const { query, page = 1, pageSize = 10, type } = call.request;
-      // console.log(call.request);
 
       // Calculate the skip value for pagination
       const skip = (page - 1) * pageSize;
@@ -68,16 +67,10 @@ server.addService(questionProto.QuestSearch.service, {
             },
           },
         },
+        ...(type ? [{ $match: { type: type } }] : []),  // Add type match dynamically
         { $skip: skip },  // Skip based on current page
         { $limit: pageSize },  // Limit the number of results per page
       ];
-
-      // If a filter by type is provided, add to the pipeline
-      if (type) {
-        agg.push({
-          $match: { type: type },
-        });
-      }
 
       const results = await collection.aggregate(agg).toArray();
 
@@ -93,16 +86,14 @@ server.addService(questionProto.QuestSearch.service, {
   },
 });
 
-
 // Start the gRPC server
-const GRPC_PORT = 50051;
+const GRPC_PORT = process.env.GRPC_PORT || 50051;
 server.bindAsync('0.0.0.0:' + GRPC_PORT, grpc.ServerCredentials.createInsecure(), () => {
   console.log(`gRPC server running on port ${GRPC_PORT}`);
   server.start();
 });
 
-// Start Express server
-const EXPRESS_PORT = 3000;
+const EXPRESS_PORT = process.env.PORT || 3000;
 app.listen(EXPRESS_PORT, () => {
   console.log(`Express server running on port ${EXPRESS_PORT}`);
 });
@@ -132,21 +123,11 @@ app.post('/api/search', async (req, res) => {
           },
         },
       },
+      ...(type ? [{ $match: { type: type } }] : []),  // Add type match dynamically
       { $skip: skip },  // Skip based on current page
       { $limit: pageSize },  // Limit the number of results per page
     ];
 
-    // If a 'type' filter is provided, add it to the aggregation pipeline
-    if (type) {
-      agg.push({
-        $match: { type: type },  // Filter by 'type' field
-      });
-    }
-
-    // Loggin the aggregation pipeline for debugging
-    // console.log('Aggregation pipeline:', JSON.stringify(agg, null, 2));
-
-    // Execute the aggregation
     const results = await collection.aggregate(agg).toArray();
 
     // Send back results to the frontend
