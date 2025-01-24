@@ -70,6 +70,7 @@ const Search = () => {
     } finally {
       setIsSearching(false);
       NProgress.done();
+      setIsServerUp(true);
     }
   };
 
@@ -130,35 +131,39 @@ const Search = () => {
           {isSearching ? (
             <p className="text-center text-lg">
               Searching...
-              <br />
-              <span className="text-sm text-gray-500">
-                (Initial request may take upto 50 seconds to load due to free-tier Render instance inactivity. Why? - 
-                <a
-                  href="https://render.com/docs/free#spinning-down-on-idle"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  Learn more
-                </a>
-                )
-              </span>
-              {!isServerUp &&
+              {!isServerUp ? (
                 <>
                   <br />
                   <span className="text-sm text-gray-500">
-                    (Waking up the server, kindly wait.
+                    (Waking up the server, kindly wait. 
                     <a
                       href="https://render.com/docs/free#spinning-down-on-idle"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 underline"
                     >
-                      Learn more
+                       Learn more
                     </a>
                     )
                   </span>
-                </>}
+                </>
+              ) : (
+                <>
+                  <br />
+                  <span className="text-sm text-gray-500">
+                    (Initial request can take upto 50 seconds to load, due to free-tier Render instance inactivity, in some exceptional case. Why? - 
+                    <a
+                      href="https://render.com/docs/free#spinning-down-on-idle"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline"
+                    >
+                       Learn more
+                    </a>
+                    )
+                  </span>
+                </>
+              )}
             </p>
           ) : (
             <>
