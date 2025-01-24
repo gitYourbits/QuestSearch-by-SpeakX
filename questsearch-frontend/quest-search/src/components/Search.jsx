@@ -135,7 +135,7 @@ const Search = () => {
                 <>
                   <br />
                   <span className="text-sm text-gray-500">
-                    (Waking up the server, kindly wait. 
+                    (Waking up the server, Please wait. This may take upto 50 seconds. Why? - 
                     <a
                       href="https://render.com/docs/free#spinning-down-on-idle"
                       target="_blank"

@@ -1,0 +1,15 @@
+name: Backend Server Health Check
+
+on:
+  schedule:
+    # Run the workflow every 14 minutes
+    - cron: "*/14 * * * *"
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send health check request to render instance
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" https://adiquestsearch.onrender.com/api/health || echo "Server unreachable"
