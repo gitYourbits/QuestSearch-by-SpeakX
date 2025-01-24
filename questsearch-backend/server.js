@@ -98,6 +98,11 @@ app.listen(EXPRESS_PORT, () => {
   console.log(`Express server running on port ${EXPRESS_PORT}`);
 });
 
+// Health check route
+app.get('/api/health', (req, res) => {
+  res.sendStatus(200);
+});
+
 // Express API endpoint to search for questions with pagination
 app.post('/api/search', async (req, res) => {
   const { query, page = 1, pageSize = 10, type } = req.body;

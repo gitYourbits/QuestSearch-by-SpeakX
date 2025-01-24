@@ -7,6 +7,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 const Search = () => {
+  const [isServerUp, setIsServerUp] = useState(false);
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState([]);
@@ -16,6 +17,22 @@ const Search = () => {
   const [filter, setFilter] = useState('');
 
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  const checkServerHealth = async () => {
+    try {
+      await axios.get(`${BASE_URL}/api/health`, { timeout: 3000 });
+      setIsServerUp(true);
+    } catch (error) {
+      if (error.code === 'ECONNABORTED') {
+        setIsServerUp(false);
+      }
+    }
+  };
+
+  // Running server health check on component mount
+  useEffect(() => {
+    checkServerHealth();
+  }, []);
 
   const handleSearchChange = (event) => {
     setQuery(event.target.value);
@@ -113,19 +130,22 @@ const Search = () => {
           {isSearching ? (
             <p className="text-center text-lg">
               Searching...
-              <br />
-              <span className="text-sm text-gray-500">
-                (Initial Response may take upto 50 seconds to load due to free-tier Render instance inactivity. Learn more
-                <a
-                  href="https://render.com/docs/free#spinning-down-on-idle"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline"
-                >
-                  here
-                </a>
-                .)
-              </span>
+              {!isServerUp &&
+                <>
+                  <br />
+                  <span className="text-sm text-gray-500">
+                    (Waking up the server, kindly wait.
+                    <a
+                      href="https://render.com/docs/free#spinning-down-on-idle"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 underline"
+                    >
+                      Learn more
+                    </a>
+                    )
+                  </span>
+                </>}
             </p>
           ) : (
             <>
