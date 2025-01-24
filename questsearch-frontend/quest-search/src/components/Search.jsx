@@ -20,7 +20,7 @@ const Search = () => {
 
   const checkServerHealth = async () => {
     try {
-      await axios.get(`${BASE_URL}/api/health`, { timeout: 2000 });
+      await axios.get(`${BASE_URL}/api/health`, { timeout: 3000 });
       setIsServerUp(true);
     } catch (error) {
       if (error.code === 'ECONNABORTED') {
@@ -131,7 +131,7 @@ const Search = () => {
           {isSearching ? (
             <p className="text-center text-lg">
               Searching...
-              {!isServerUp ? (
+              {!isServerUp &&
                 <>
                   <br />
                   <span className="text-sm text-gray-500">
@@ -141,29 +141,12 @@ const Search = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 underline"
-                    >
-                       Learn more
+                    > Learn more
                     </a>
                     )
                   </span>
                 </>
-              ) : (
-                <>
-                  <br />
-                  <span className="text-sm text-gray-500">
-                    (Initial request can take upto 50 seconds to load, due to free-tier Render instance inactivity, in some exceptional case. Why? - 
-                    <a
-                      href="https://render.com/docs/free#spinning-down-on-idle"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 underline"
-                    >
-                       Learn more
-                    </a>
-                    )
-                  </span>
-                </>
-              )}
+              }
             </p>
           ) : (
             <>
