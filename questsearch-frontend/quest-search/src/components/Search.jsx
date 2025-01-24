@@ -7,7 +7,7 @@ import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
 const Search = () => {
-  const [isServerUp, setIsServerUp] = useState(false);
+  const [isServerUp, setIsServerUp] = useState(true);
   const [query, setQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState([]);
@@ -134,14 +134,14 @@ const Search = () => {
                 <>
                   <br />
                   <span className="text-sm text-gray-500">
-                    (Waking up the server, kindly wait.
+                    (Waking up the server, kindly wait. 
                     <a
                       href="https://render.com/docs/free#spinning-down-on-idle"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 underline"
                     >
-                      Learn more
+                       Learn more
                     </a>
                     )
                   </span>
