@@ -135,7 +135,7 @@ const Search = () => {
                 <>
                   <br />
                   <span className="text-sm text-gray-500">
-                    (Waking up the server, Please wait. This may take upto 50 seconds. Why? - 
+                    (Waking up the server, Please wait. This may take upto 50 seconds. Why? -
                     <a
                       href="https://render.com/docs/free#spinning-down-on-idle"
                       target="_blank"
@@ -237,8 +237,22 @@ const Search = () => {
           </div>
         </div>
       </div>
-      <div className="absolute bottom-0 mt-auto w-full text-center p-2 bg-gray-900 text-white">
-        <p>Created by Aditya &middot; All rights reserved</p>
+      <div className="absolute bottom-0 mt-auto w-full text-center p-2 bg-gray-900 text-white flex flex-wrap items-center justify-center gap-2">
+        <a
+          href="https://github.com/gitYourbits"
+          target="_blank"
+          style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
+        >
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
+            alt="GitHub"
+            className="w-5 h-5 sm:w-6 sm:h-6" /* Adjusts size based on screen */
+            style={{ filter: 'invert(1)' }}
+          />
+          Aditya
+        </a>
+        <span className="hidden sm:inline">&middot;</span>
+        <span className="text-center text-sm sm:text-base">&copy; 2025 QuestSearch &middot; All rights reserved.</span>
       </div>
     </div>
   );
