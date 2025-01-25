@@ -246,7 +246,7 @@ const Search = () => {
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg"
             alt="GitHub"
-            className="w-5 h-5 sm:w-6 sm:h-6" /* Adjusts size based on screen */
+            className="w-4 h-4 sm:w-6 sm:h-6"
             style={{ filter: 'invert(1)' }}
           />
           Aditya
