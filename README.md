@@ -25,7 +25,7 @@
 - **React**: JavaScript library for building user interfaces, focusing on component-based architecture.
 - **Vite**: Next-generation build tool optimized for fast development and production builds.
 - **Tailwind CSS (with custom styling)**: Used to create a fully responsive UI.
-- **Shadcn/ui (for UI components)**: An open-source project that provides beautifully designed, reusable components for building user interfaces. These components are built with Tailwind CSS
+- **Shadcn/ui (for UI components)**: An open-source project that provides beautifully designed, pre-built, reusable components for building user interfaces. These components are written in TypeScript and Tailwind CSS.
 
 ### Search Algorithm:
 - **MongoDB Atlas Full-Text Search**: QuestSearch uses MongoDB's full-text search capabilities to index question titles. Full-Text Search provides powerful features such as:
@@ -34,7 +34,7 @@
   - **Pagination**: Search results are limited and paginated to improve performance.
   - **Filtering**: Filters questions based on types, ensuring better targeting of search results.
 
-Why MongoDB Atlas Full-Text Search?
+# Why MongoDB Atlas Full-Text Search?
 - **Scalability**: MongoDB Atlas is designed to scale horizontally, making it an ideal choice for handling large amounts of data while maintaining fast search performance.
 - **Ease of Use**: MongoDB provides simple integration with the full-text search index, making it easy to query and get relevant results.
 - **Real-time Performance**: As the database and search engine are integrated, there is minimal overhead in managing separate indexing services like Elasticsearch.
@@ -45,7 +45,7 @@ Why MongoDB Atlas Full-Text Search?
 1. **Node.js** (v14.x or higher)
 2. **MongoDB Atlas account** (for database setup)
 3. **Vercel/Render account** (for frontend/backend deployment)
-4. **Basic understanding of JavaScript, Node.js, Express, React, and MongoDB**
+4. **Basic understanding of JavaScript, Node.js, gRPC, Express, React, and MongoDB**
 
 ### Backend Setup
 1. Clone the repository:
@@ -66,7 +66,7 @@ Why MongoDB Atlas Full-Text Search?
     PORT=3000        # Optional: set a custom port for Express server
     ```
 
-4. Upload data to mongodb (JSON data file link: https://drive.google.com/file/d/1CZ0GX4opA4grkLunRuWwH7bwlmfcSeUQ/view):
+4. Upload data to mongodb by running the below command (JSON data file link: https://drive.google.com/file/d/1CZ0GX4opA4grkLunRuWwH7bwlmfcSeUQ/view):
     ```bash
     node loadData.js
     ```
@@ -77,7 +77,7 @@ Why MongoDB Atlas Full-Text Search?
     ```
 
 ### Frontend Setup
-1. Clone the repository:
+1. Clone the repository (if not already cloned) and navigate to the target directory:
     ```bash
     git clone https://github.com/yourusername/questsearch.git
     cd questsearch/questsearch-frontend/quest-search
@@ -109,7 +109,7 @@ For Frontend (**Vercel**):
 
 ## API Endpoints
 
-### `/api/search` (POST)
+### Express.js proxy: `/api/search` (POST)
 - **Request Body**:
     ```json
     {
@@ -127,12 +127,13 @@ For Frontend (**Vercel**):
           "id": "question_id",
           "title": "Question title",
           "type": "multiple-choice",
+          // Other question metadata, if required
         }
       ]
     }
     ```
 
-### gRPC API: `QuestSearch.searchQuestions`
+### gRPC API: requests to Mongodb Atlas collection: `QuestSearch.searchQuestions`
 - **Request**:
     ```json
     {
